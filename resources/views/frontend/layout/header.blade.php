@@ -20,6 +20,11 @@
                     <a class="btn btn-outline-primary me-2" href="{{ route('profile') }}" type="submit">Profile</a>
                 @endif
                 <a class="btn btn-primary" href="post-job.html" type="submit">Post a Job</a>
+
+                @if(Auth::check())
+                    <a class="ms-2" href="{{route('profile')}}"> <img class="rounded-circle img-fluid" src="{{ asset('images/'.auth()->user()->image) }}" style="width:50px"></a>
+                @endif
+
             </div>
         </div>
     </nav>
