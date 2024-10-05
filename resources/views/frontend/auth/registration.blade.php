@@ -70,14 +70,12 @@
                     dataType: 'json',
                     success: function(response){
                         if(response.status == true){
-                            console.log(10);
                             window.location.href = "{{ route('login') }}";
                         }else{
                             alert(response.message);
                         }
                     },
                     error: function(xhr, status, error){
-                        console.log("Error response:", xhr);  // Log the error response
                         let errorMessage = xhr.responseJSON && xhr.responseJSON.message ? xhr.responseJSON.message : "An error occurred";
                         alert("Error: " + errorMessage);
                     }

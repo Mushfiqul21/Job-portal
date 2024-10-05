@@ -1,6 +1,7 @@
 <?php
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\JobController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\PasswordSettingController;
 use Illuminate\Support\Facades\Auth;
@@ -36,5 +37,12 @@ Route::middleware(['auth'])->group(function(){
     Route::post('profile',[ProfileController::class,'update'])->name('profile.update');
 
     Route::post('profile/password-update/{id?}',[PasswordSettingController::class,'passwordUpdate'])->name('password.update');
+
+    Route::group(['prefix' => 'job', 'as' => 'job.'], function(){
+        Route::get('/',[JobController::class,'create'])->name('create');
+
+        Route::post('/store',[JobController::class,'store'])->name('store');
+
+    });
 });
 
