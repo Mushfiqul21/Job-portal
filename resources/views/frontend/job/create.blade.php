@@ -19,12 +19,6 @@
                 </div>
                 <div class="col-lg-9">
                     <div class="card border-0 shadow mb-4">
-                        @if(Session::has('message'))
-                            <div class="alert alert-success alert-dismissible fade show"  role="alert">
-                                <p>{{Session::get('message')}}</p>
-                                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-                            </div>
-                        @endif
                         <form action="{{route('job.store')}}" method="post" id="createJob" autocomplete="on">
                             @csrf
                             <div class="card-body card-form p-4">

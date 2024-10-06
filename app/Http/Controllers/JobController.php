@@ -6,6 +6,7 @@ use App\Models\Category;
 use App\Models\Job;
 use App\Models\JobType;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
 
 class JobController extends Controller
@@ -34,6 +35,7 @@ class JobController extends Controller
                 $job->title = $request->title;
                 $job->category_id = $request->category;
                 $job->job_type_id = $request->job_type;
+                $job->user_id = Auth::user()->id;
                 $job->vacancy  = $request->vacancy;
                 $job->salary = $request->salary;
                 $job->location = $request->location;
@@ -50,7 +52,7 @@ class JobController extends Controller
                 $job->save();
 
                 session()->flash('message','Job posted successfully');
-                return redirect()->route('job.create');
+                return redirect()->route('job.show');
 
             }else{
                 return redirect()->back()->withErrors($validateData->errors())->withInput();
@@ -58,5 +60,11 @@ class JobController extends Controller
         }catch(\Exception $e){
             return $e->getMessage();
         }
+    }
+
+    public function show(){
+        $data['breadcrumb'] = "Jobs";
+        $data['jobs'] = Job::where('user_id', Auth::user()->id)->with('jobType')->paginate(1);
+        return view('frontend.job.index',$data);
     }
 }
