@@ -32,7 +32,7 @@
                                 </div>
                             </div>
                             <div class="table-responsive">
-                                <table class="table ">
+                                <table class="table " id="jobTable">
                                     <thead>
                                         <th>Title</th>
                                         <th>Job Created</th>
@@ -57,7 +57,12 @@
                                                         <p class="badge bg-danger">InActive</p>
                                                     @endif
                                                 </td>
-                                                <td><div class="btn btn-primary me-2">Edit</div><div class="btn btn-primary">Delete</div></td>
+                                                <td><div class="btn btn-success me-2">
+                                                        <a class="text-white" href="{{ route('job.edit', encrypt($job->id)) }}"><i class="fa fa-edit"></i></a>
+                                                    </div>
+                                                    <div class="btn btn-danger">
+                                                        <a class="text-white" id="delete" href="{{ route('job.destroy', encrypt($job->id)) }}"><i class="fa fa-trash"></i></a>
+                                                    </div></td>
                                             </tr>
                                         @endforeach
                                     @endif
@@ -72,4 +77,20 @@
         </div>
     </section>
 @endsection
+
+@push('script')
+    <script>
+        $(document).ready(function(){
+            $('#jobTable').on('click', '#delete', function(event) {
+                event.preventDefault();
+                var url = $(this).attr('href');
+                var confirmMessage = "Are you sure you want to delete?";
+
+                if (confirm(confirmMessage)) {
+                    window.location.href = url;
+                }
+            });
+        });
+    </script>
+@endpush
 
