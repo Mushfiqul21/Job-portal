@@ -128,4 +128,13 @@ class JobController extends Controller
             return $e->getMessage();
         }
     }
+
+    public function jobs(){
+
+        $data['categories'] = Category::where('status',1)->get();
+        $data['jobTypes'] = JobType::where('status',1)->get();
+        $data['jobs'] = Job::where('status',1)->with('jobType')->orderBy('created_at','desc')->paginate(9);
+
+        return view('frontend.job.view', $data);
+    }
 }

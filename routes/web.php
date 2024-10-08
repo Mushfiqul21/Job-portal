@@ -39,7 +39,7 @@ Route::middleware(['auth'])->group(function(){
     Route::post('profile/password-update/{id?}',[PasswordSettingController::class,'passwordUpdate'])->name('password.update');
 
     Route::group(['prefix' => 'job', 'as' => 'job.'], function(){
-        Route::get('/',[JobController::class,'create'])->name('create');
+        Route::get('create',[JobController::class,'create'])->name('create');
 
         Route::post('store',[JobController::class,'store'])->name('store');
 
@@ -49,6 +49,8 @@ Route::middleware(['auth'])->group(function(){
         Route::post('update/{id}',[JobController::class,'update'])->name('update');
 
         Route::get('destroy/{id}',[JobController::class,'destroy'])->name('destroy');
+
+        Route::get('/',[JobController::class,'jobs'])->name('jobs');
 
     });
 });
