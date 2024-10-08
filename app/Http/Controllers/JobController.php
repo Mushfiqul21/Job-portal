@@ -129,11 +129,39 @@ class JobController extends Controller
         }
     }
 
-    public function jobs(){
+    public function jobs(Request $request){
 
         $data['categories'] = Category::where('status',1)->get();
         $data['jobTypes'] = JobType::where('status',1)->get();
-        $data['jobs'] = Job::where('status',1)->with('jobType')->orderBy('created_at','desc')->paginate(9);
+        $data['jobs'] = Job::where('status',1);
+
+        //Search using keyword
+        if(!empty($request->keyword))
+        {
+            $data['jobs'] = $data['jobs']->where(function($query) use($request){
+                $query->orwhere('title','LIKE','%'.$request->keyword.'%');
+                $query->orwhere('keywords','LIKE','%'.$request->keyword.'%');
+            });
+        }
+
+        //search using location
+        if(!empty($request->location)){
+            $data['jobs'] = $data['jobs']->where('location','LIKE','%'.$request->location.'%');
+        }
+
+        //search using category
+        if(!empty($request->category)){
+            $data['jobs'] = $data['jobs']->where('category_id',$request->category);
+        }
+
+        $data['jobTypeArray'] = [];
+        //search using jobType
+        if(!empty($request->jobType)){
+            $data['jobTypeArray'] = explode(',',$request->jobType);
+            $data['jobs'] = $data['jobs']->whereIn('job_type_id',$data['jobTypeArray']);
+        }
+
+        $data['jobs'] = $data['jobs']->with('jobType','category')->orderBy('created_at','desc')->paginate(9);
 
         return view('frontend.job.view', $data);
     }

@@ -23,21 +23,21 @@
                         <div class="card border-0 shadow p-4">
                             <div class="mb-4">
                                 <h2>Keywords</h2>
-                                <input type="text" placeholder="Keywords" class="form-control" id="keyword" name="keyword">
+                                <input type="text" placeholder="Keywords" class="form-control" id="keyword" name="keywords" value="{{ Request::get('keyword') }}">
                             </div>
 
                             <div class="mb-4">
                                 <h2>Location</h2>
-                                <input type="text" placeholder="Location" class="form-control" id="location" name="location">
+                                <input type="text" placeholder="Location" class="form-control" id="location" name="location" value="{{ Request::get('location') }}">
                             </div>
 
                             <div class="mb-4">
                                 <h2>Category</h2>
-                                <select name="category" id="category" class="form-control" name="category">
+                                <select name="category" id="category" class="form-control">
                                     <option value="">Select a Category</option>
                                     @if($categories->isNotEmpty())
                                         @foreach($categories as $category)
-                                            <option value="{{$category->id}}">{{$category->name}}</option>
+                                            <option {{(Request::get('category')==$category->id) ? 'selected' : ''}} value="{{$category->id}}">{{$category->name}}</option>
                                         @endforeach
                                     @endif
                                 </select>
@@ -48,30 +48,14 @@
                                 @if($jobTypes->isNotEmpty())
                                     @foreach($jobTypes as $jobType)
                                         <div class="form-check mb-2">
-                                            <input class="form-check-input " name="job_type" type="checkbox" value="{{$jobType->id}}" id="job_type_{{$jobType->id}}">
+                                            <input {{(in_array($jobType->id, $jobTypeArray)) ? 'checked' : '' }} class="form-check-input " name="job_type" type="checkbox" value="{{$jobType->id}}" id="job_type_{{$jobType->id}}">
                                             <label class="form-check-label " for="job_type_{{$jobType->id}}">{{$jobType->name}}</label>
                                         </div>
                                     @endforeach
                                 @endif
                             </div>
 
-                            <div class="mb-4">
-                                <h2>Experience</h2>
-                                <select name="category" id="experience" class="form-control">
-                                    <option value="">Select Experience</option>
-                                    <option value="">1 Year</option>
-                                    <option value="">2 Years</option>
-                                    <option value="">3 Years</option>
-                                    <option value="">4 Years</option>
-                                    <option value="">5 Years</option>
-                                    <option value="">6 Years</option>
-                                    <option value="">7 Years</option>
-                                    <option value="">8 Years</option>
-                                    <option value="">9 Years</option>
-                                    <option value="">10 Years</option>
-                                    <option value="">10+ Years</option>
-                                </select>
-                            </div>
+                            <button class="btn btn-primary" type="submit">Search</button>
                         </div>
                     </form>
                 </div>
@@ -86,7 +70,7 @@
                                             <div class="card border-0 p-3 shadow mb-4">
                                                 <div class="card-body">
                                                     <h3 class="border-0 fs-5 pb-2 mb-0">{{$job->title}}</h3>
-                                                    <p>{{ Str::words($job->description, 8) }}</p>
+                                                    <p>{{ Str::words($job->description, 5) }}</p>
                                                     <div class="bg-light p-3 border">
                                                         <p class="mb-0">
                                                             <span class="fw-bolder"><i class="fa fa-map-marker"></i></span>
@@ -100,6 +84,11 @@
                                                             <span class="fw-bolder"><i class="fa fa-usd"></i></span>
                                                             <span class="ps-1">{{$job->salary}}</span>
                                                         </p>
+                                                        <p class="mb-0">
+                                                            <span class="fw-bolder">Keywords:</span>
+                                                            <span class="ps-1">{{$job->keywords}}</span>
+                                                            <p>{{$job->category->name}}</p>
+                                                        </p>
                                                     </div>
 
                                                     <div class="d-grid mt-3">
@@ -109,6 +98,10 @@
                                             </div>
                                         </div>
                                     @endforeach
+                                @else
+                                    <div class="alert alert-warning">
+                                        No Job Found
+                                    </div>
                                 @endif
                             </div>
                         </div>
@@ -119,3 +112,39 @@
         </div>
     </section>
 @endsection
+
+@push('script')
+    <script>
+        $('#searchForm').submit(function(e){
+            e.preventDefault();
+
+            let url = '{{route("job.jobs")}}?';
+            let keyword = $("#keyword").val();
+            let location = $("#location").val();
+            let category = $("#category").val();
+
+            let checkedJobTypes = $("input:checkbox[name='job_type']:checked").map(function(){
+                return $(this).val();
+            }).get();
+
+
+            if(keyword != ""){
+                url += '&keyword='+keyword;
+            }
+
+            if(location != ""){
+                url += '&location='+location;
+            }
+
+            if(category != ""){
+                url += '&category='+category;
+            }
+
+            if(checkedJobTypes.length > 0){
+                url += '&jobType='+checkedJobTypes;
+            }
+
+            window.location.href = url;
+        });
+    </script>
+@endpush
