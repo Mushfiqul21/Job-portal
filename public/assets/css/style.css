@@ -9392,7 +9392,7 @@ header .navbar-brand {
 .section-3 .job_listing_area .job_lists .single_jobs .jobs_left .jobs_conetent .links_locat .location p {
   margin-bottom: 0;
   font-size: 16px;
-  color: #AAB1B7;
+  color: #838383;
 }
 .section-3 .job_listing_area .job_lists .single_jobs .jobs_left .jobs_conetent h4 {
   font-size: 24px;
@@ -9440,7 +9440,7 @@ header .navbar-brand {
 .section-4 .job_details_area .job_sumary .job_content ul li {
   font-size: 16px;
   font-weight: 400;
-  color: #AAB1B7;
+  color: #777777;
   line-height: 38px;
   padding-left: 18px;
   position: relative;
@@ -9449,7 +9449,7 @@ header .navbar-brand {
   position: absolute;
   width: 8px;
   height: 8px;
-  border: 1px solid #AAB1B7;
+  border: 1px solid #777777;
   -webkit-border-radius: 50%;
   -moz-border-radius: 50%;
   border-radius: 50%;

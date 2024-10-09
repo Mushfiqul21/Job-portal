@@ -161,8 +161,27 @@ class JobController extends Controller
             $data['jobs'] = $data['jobs']->whereIn('job_type_id',$data['jobTypeArray']);
         }
 
-        $data['jobs'] = $data['jobs']->with('jobType','category')->orderBy('created_at','desc')->paginate(9);
+        $data['jobs'] = $data['jobs']->with('jobType','category');
+        if($request->sort == 0){
+            $data['jobs'] = $data['jobs']->orderBy('created_at','asc');
+        }
+        else{
+            $data['jobs'] = $data['jobs']->orderBy('created_at','desc');
+        }
+        $data['jobs'] = $data['jobs']->orderBy('created_at','desc');
+        $data['jobs'] = $data['jobs']->paginate(9);
 
         return view('frontend.job.view', $data);
+    }
+
+    public function jobDetails($id){
+        $data['job'] = Job::where(['id'=>$id, 'status'=>1])
+            ->with('jobType','category')->first();
+        $data['breadcrumb'] = " Back to Job";
+
+        if(is_null($data['job'])){
+            return redirect()->back();
+        }
+        return view('frontend.job.details', $data);
     }
 }

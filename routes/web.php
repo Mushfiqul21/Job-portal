@@ -51,7 +51,7 @@ Route::middleware(['auth'])->group(function(){
         Route::get('destroy/{id}',[JobController::class,'destroy'])->name('destroy');
 
         Route::get('/',[JobController::class,'jobs'])->name('jobs');
-
+        Route::get('/detail/{id}',[JobController::class,'jobDetails'])->name('detail');
     });
 });
 

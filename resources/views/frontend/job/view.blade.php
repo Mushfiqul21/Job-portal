@@ -9,10 +9,10 @@
                 </div>
                 <div class="col-6 col-md-2">
                     <div class="align-end">
-                        <select name="sort" id="sort" class="form-control">
-                            <option value="">Latest</option>
-                            <option value="">Oldest</option>
-                        </select>
+                            <select name="sort" id="sort" class="form-control">
+                                <option value="1" {{(Request::get('sort') == '1') ? 'selected':''}}>Latest</option>
+                                <option value="0" {{(Request::get('sort') == '0') ? 'selected':''}}>Oldest</option>
+                            </select>
                     </div>
                 </div>
             </div>
@@ -56,6 +56,7 @@
                             </div>
 
                             <button class="btn btn-primary" type="submit">Search</button>
+                            <a class="btn btn-secondary mt-3" href="{{route('job.jobs')}}">Reset</a>
                         </div>
                     </form>
                 </div>
@@ -92,7 +93,7 @@
                                                     </div>
 
                                                     <div class="d-grid mt-3">
-                                                        <a href="job-detail.html" class="btn btn-primary btn-lg">Details</a>
+                                                        <a href="{{ route('job.detail',$job->id) }}" class="btn btn-primary btn-lg">Details</a>
                                                     </div>
                                                 </div>
                                             </div>
@@ -122,6 +123,7 @@
             let keyword = $("#keyword").val();
             let location = $("#location").val();
             let category = $("#category").val();
+            let sort = $('#sort').val();
 
             let checkedJobTypes = $("input:checkbox[name='job_type']:checked").map(function(){
                 return $(this).val();
@@ -144,7 +146,13 @@
                 url += '&jobType='+checkedJobTypes;
             }
 
+            url += '&sort='+sort;
+
             window.location.href = url;
+        });
+
+        $("#sort").change(function(){
+            $('#searchForm').submit();
         });
     </script>
 @endpush
