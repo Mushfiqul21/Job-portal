@@ -52,6 +52,10 @@ Route::middleware(['auth'])->group(function(){
 
         Route::get('/',[JobController::class,'jobs'])->name('jobs');
         Route::get('/detail/{id}',[JobController::class,'jobDetails'])->name('detail');
+
+        Route::post('/apply',[JobController::class,'applyJob'])->name('apply');
+        Route::get('/applied',[JobController::class,'appliedJobs'])->name('applied');
+        Route::get('/applied/delete/{id}',[JobController::class,'deleteAppliedJobs'])->name('delete.applied');
     });
 });
 

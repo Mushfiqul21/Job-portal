@@ -13,6 +13,18 @@
                 </div>
             </div>
         </div>
+        @if(Session::has('message'))
+            <div class="alert alert-success alert-dismissible fade show"  role="alert">
+                <p>{{Session::get('message')}}</p>
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+        @endif
+        @if(Session::has('error'))
+            <div class="alert alert-danger alert-dismissible fade show"  role="alert">
+                <p>{{Session::get('error')}}</p>
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+        @endif
         <div class="container job_details_area">
             <div class="row pb-5">
                 <div class="col-md-8">
@@ -74,7 +86,7 @@
                             <div class="border-bottom"></div>
                             <div class="pt-3 text-end">
                                 <a href="#" class="btn btn-secondary">Save</a>
-                                <a href="#" class="btn btn-primary">Apply</a>
+                                <a href="#" onClick="applyJob({{ $job->id }})" class="btn btn-primary">Apply</a>
                             </div>
                         </div>
                     </div>
@@ -115,3 +127,23 @@
         </div>
     </section>
 @endsection
+
+@push('script')
+    <script type="text/javascript">
+        function applyJob(id){
+            if(confirm("Are you sure you want to apply on this job?")){
+                $.ajax({
+                    url: '{{ route("job.apply") }}',
+                    type: 'POST',
+                    data: { id: id,
+                        _token: '{{ csrf_token() }}',
+                    },
+                    dataType: 'json',
+                    success: function(response) {
+                        window.location.reload();
+                    }
+                });
+            }
+        }
+    </script>
+@endpush
