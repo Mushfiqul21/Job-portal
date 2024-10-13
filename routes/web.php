@@ -58,6 +58,8 @@ Route::middleware(['auth'])->group(function(){
         Route::get('/applied/delete/{id}',[JobController::class,'deleteAppliedJobs'])->name('delete.applied');
 
         Route::post('/saved',[JobController::class,'savedJobs'])->name('saved');
+        Route::get('/saved/list',[JobController::class,'savedJobsList'])->name('saved.list');
+        Route::get('/saved/delete/{id}',[JobController::class,'deleteSavedJobs'])->name('delete.saved');
     });
 });
 

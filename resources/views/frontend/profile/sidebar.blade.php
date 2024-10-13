@@ -11,7 +11,7 @@
                 <a href="{{ route('job.applied') }}">Jobs Applied</a>
             </li>
             <li class="list-group-item d-flex justify-content-between align-items-center p-3">
-                <a href="saved-jobs.html">Saved Jobs</a>
+                <a href="{{ route('job.saved.list') }}">Saved Jobs</a>
             </li>
             <li class="list-group-item d-flex justify-content-between align-items-center p-3">
                 <a class="btn btn-primary text-white" type="submit" href="{{ route('logout') }}">Log out</a>

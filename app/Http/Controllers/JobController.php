@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Mail\JobNotificationEmail;
+
 use App\Models\Category;
 use App\Models\Job;
 use App\Models\JobApplication;
@@ -11,7 +11,6 @@ use App\Models\SavedJob;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Validator;
 
 class JobController extends Controller
@@ -187,6 +186,7 @@ class JobController extends Controller
         if(is_null($data['job'])){
             return redirect()->back();
         }
+        $data['count'] =SavedJob::where(['user_id'=>Auth::user()->id,'job_id'=>$id])->count();
         return view('frontend.job.details', $data);
     }
 
@@ -235,7 +235,7 @@ class JobController extends Controller
 
     public function appliedJobs(){
         $data['breadcrumb'] = " Applied Jobs";
-        $data['appliedJobs'] = JobApplication::where('user_id', Auth::user()->id)->with(['job','job.applicants'])->get();
+        $data['appliedJobs'] = JobApplication::where('user_id', Auth::user()->id)->with(['job','job.applicants'])->paginate(5);
         return view('frontend.job.applied-job', $data);
     }
 
@@ -282,5 +282,28 @@ class JobController extends Controller
             'message' => 'Saved job successfully'
         ]);
 
+    }
+
+    public function savedJobsList(Request $request){
+        $data['breadcrumb'] = " Saved Jobs";
+        $data['savedJobs'] = SavedJob::where(['user_id'=>Auth::user()->id])
+            ->with(['job','job.jobType','job.applicants'])
+            ->paginate(5);
+        return view('frontend.job.saved-job-list', $data);
+    }
+
+    public function deleteSavedJobs($id){
+        try{
+            $SavedJob = SavedJob::find($id);
+            if(is_null($SavedJob)){
+                session()->flash('error','Job not found');
+                return redirect()->back();
+            }
+            $SavedJob->delete();
+            session()->flash('message','Job deleted successfully');
+            return redirect()->back();
+        }catch(\Exception $e){
+            return $e->getMessage();
+        }
     }
 }

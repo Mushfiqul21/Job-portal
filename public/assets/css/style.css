@@ -10023,3 +10023,7 @@ footer .nav-link {
 .footer{
     background: #067a7e;
 }
+.saved-job{
+    background: #00D363 !important;
+    color:#fff !important;
+}
