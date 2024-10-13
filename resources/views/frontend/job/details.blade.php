@@ -25,6 +25,12 @@
                 <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
             </div>
         @endif
+        @if(Session::has('error-saved'))
+            <div class="alert alert-danger alert-dismissible fade show"  role="alert">
+                <p>{{Session::get('error-saved')}}</p>
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+        @endif
         <div class="container job_details_area">
             <div class="row pb-5">
                 <div class="col-md-8">
@@ -49,7 +55,7 @@
                                 </div>
                                 <div class="jobs_right">
                                     <div class="apply_now">
-                                        <a class="heart_mark" href="#"> <i class="fa fa-heart-o" aria-hidden="true"></i></a>
+                                        <a class="heart_mark" href="javascript:void(0)" onClick="saveJob({{ $job->id }})"> <i class="fa fa-heart-o" aria-hidden="true"></i></a>
                                     </div>
                                 </div>
                             </div>
@@ -85,8 +91,8 @@
                             @endif
                             <div class="border-bottom"></div>
                             <div class="pt-3 text-end">
-                                <a href="#" class="btn btn-secondary">Save</a>
-                                <a href="#" onClick="applyJob({{ $job->id }})" class="btn btn-primary">Apply</a>
+                                <a href="javascript:void(0)" onClick="saveJob({{ $job->id }})" class="btn btn-secondary">Save</a>
+                                <a href="javascript:void(0)" onClick="applyJob({{ $job->id }})" class="btn btn-primary">Apply</a>
                             </div>
                         </div>
                     </div>
@@ -134,6 +140,22 @@
             if(confirm("Are you sure you want to apply on this job?")){
                 $.ajax({
                     url: '{{ route("job.apply") }}',
+                    type: 'POST',
+                    data: { id: id,
+                        _token: '{{ csrf_token() }}',
+                    },
+                    dataType: 'json',
+                    success: function(response) {
+                        window.location.reload();
+                    }
+                });
+            }
+        }
+
+        function saveJob(id){
+            if(confirm("Are you sure you want to save this job?")){
+                $.ajax({
+                    url: '{{ route("job.saved") }}',
                     type: 'POST',
                     data: { id: id,
                         _token: '{{ csrf_token() }}',

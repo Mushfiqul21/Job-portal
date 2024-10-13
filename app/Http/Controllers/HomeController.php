@@ -13,6 +13,9 @@ class HomeController extends Controller
                                 ->orderBy('name','asc')
                                 ->take(8)
                                 ->get();
+        $data['new_category'] = Category::where('status',1)
+                                ->orderBy('name','asc')
+                                ->get();
 
         $data['featured_jobs'] = Job::where('status',1)
                                 ->orderBy('created_at','desc')
