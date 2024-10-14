@@ -57,7 +57,10 @@
                                                         <p class="badge bg-danger">InActive</p>
                                                     @endif
                                                 </td>
-                                                <td><div class="btn btn-success me-2">
+                                                <td><div class="btn btn-info me-2">
+                                                        <a class="text-white" href="{{ route('job.detail', $job->id) }}"><i class="fa fa-eye"></i></a>
+                                                    </div>
+                                                    <div class="btn btn-success me-2">
                                                         <a class="text-white" href="{{ route('job.edit', encrypt($job->id)) }}"><i class="fa fa-edit"></i></a>
                                                     </div>
                                                     <div class="btn btn-danger">

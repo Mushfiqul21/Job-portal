@@ -186,7 +186,8 @@ class JobController extends Controller
         if(is_null($data['job'])){
             return redirect()->back();
         }
-        $data['count'] =SavedJob::where(['user_id'=>Auth::user()->id,'job_id'=>$id])->count();
+        $data['count'] = SavedJob::where(['user_id'=>Auth::user()->id,'job_id'=>$id])->count();
+        $data['jobApplication'] = JobApplication::where('job_id', $id)->with('user')->get();
         return view('frontend.job.details', $data);
     }
 

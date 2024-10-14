@@ -96,6 +96,37 @@
                             </div>
                         </div>
                     </div>
+                    @if(Auth::user())
+                        @if(Auth::user()->id == $job->user_id)
+                            <div class="card shadow border-0 mt-3">
+                                <div class="job_details_header">
+                                    <div class="single_jobs white-bg">
+                                        <div class="jobs_conetent">
+                                            <h4>Applicants</h4>
+                                        </div>
+                                        <div class="d-flex align-items-center w-100">
+                                            <table class="table table-striped">
+                                                <tr>
+                                                    <th>Name</th>
+                                                    <th>Email</th>
+                                                    <th>Applied Date</th>
+                                                </tr>
+                                                @if($jobApplication->isNotEmpty())
+                                                    @foreach($jobApplication as $application)
+                                                        <tr>
+                                                            <td>{{$application->user->name}}</td>
+                                                            <td>{{$application->user->email}}</td>
+                                                            <td>{{\Carbon\Carbon::parse($application->applied_date)->format('d M Y')}}</td>
+                                                        </tr>
+                                                    @endforeach
+                                                @endif
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        @endif
+                    @endif
                 </div>
                 <div class="col-md-4">
                     <div class="card shadow border-0">
