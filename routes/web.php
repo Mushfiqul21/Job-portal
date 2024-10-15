@@ -4,6 +4,7 @@ use App\Http\Controllers\HomeController;
 use App\Http\Controllers\JobController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\PasswordSettingController;
+use App\Http\Controllers\DashboardController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
@@ -29,6 +30,7 @@ Route::post('registration',[AuthController::class,'registrationPost'])->name('re
 
 Route::get('login',[AuthController::class,'login'])->name('login');
 Route::post('login',[AuthController::class,'loginPost'])->name('login.post');
+
 
 Route::middleware(['auth'])->group(function(){
     Route::get('logout',[AuthController::class,'logout'])->name('logout');
@@ -60,6 +62,10 @@ Route::middleware(['auth'])->group(function(){
         Route::post('/saved',[JobController::class,'savedJobs'])->name('saved');
         Route::get('/saved/list',[JobController::class,'savedJobsList'])->name('saved.list');
         Route::get('/saved/delete/{id}',[JobController::class,'deleteSavedJobs'])->name('delete.saved');
+    });
+
+    Route::middleware('checkRole')->group(function(){
+        Route::get('dashboard',[DashboardController::class,'index'])->name('dashboard');
     });
 });
 

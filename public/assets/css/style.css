@@ -10021,7 +10021,7 @@ footer .nav-link {
 }
 /* '' */
 .footer{
-    background: #067a7e;
+    background: #067a7e !important;
 }
 .saved-job{
     background: #00D363 !important;
