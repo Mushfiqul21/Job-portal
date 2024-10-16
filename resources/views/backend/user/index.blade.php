@@ -15,7 +15,7 @@
             </div>
             <div class="row">
                 <div class="col-lg-3">
-                    @include('frontend.profile.sidebar')
+                    @include('backend.layout.sidebar')
                 </div>
                 <div class="col-lg-9">
                     <div class="card border-0 shadow mb-4 p-3">
