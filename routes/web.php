@@ -5,6 +5,7 @@ use App\Http\Controllers\JobController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\PasswordSettingController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
@@ -50,7 +51,7 @@ Route::middleware(['auth'])->group(function(){
 
         Route::post('update/{id}',[JobController::class,'update'])->name('update');
 
-        Route::get('destroy/{id}',[JobController::class,'destroy'])->name('destroy');
+        Route::delete('destroy/{id}',[JobController::class,'destroy'])->name('destroy');
 
         Route::get('/',[JobController::class,'jobs'])->name('jobs');
         Route::get('/detail/{id}',[JobController::class,'jobDetails'])->name('detail');
@@ -66,6 +67,9 @@ Route::middleware(['auth'])->group(function(){
 
     Route::middleware('checkRole')->group(function(){
         Route::get('dashboard',[DashboardController::class,'index'])->name('dashboard');
+        Route::get('users',[UserController::class,'index'])->name('users');
+        Route::get('users/view/{id}',[UserController::class,'view'])->name('users.view');
+        Route::delete('users/delete/{id}',[UserController::class,'destroy'])->name('users.delete');
     });
 });
 

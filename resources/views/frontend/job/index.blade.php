@@ -63,9 +63,14 @@
                                                     <div class="btn btn-success me-2">
                                                         <a class="text-white" href="{{ route('job.edit', encrypt($job->id)) }}"><i class="fa fa-edit"></i></a>
                                                     </div>
-                                                    <div class="btn btn-danger">
-                                                        <a class="text-white" id="delete" href="{{ route('job.destroy', encrypt($job->id)) }}"><i class="fa fa-trash"></i></a>
-                                                    </div></td>
+                                                    <div>
+                                                        <form action="{{ route('job.destroy', encrypt($job->id)) }}" method="POST" style="display:inline;">
+                                                            @csrf
+                                                            @method('DELETE')
+                                                            <button type="submit" class="btn btn-danger" id="delete"><i class="fa fa-trash"></i></button>
+                                                        </form>
+                                                    </div>
+                                                </td>
                                             </tr>
                                         @endforeach
                                     @endif
@@ -83,14 +88,14 @@
 
 @push('script')
     <script>
-        $(document).ready(function(){
-            $('#jobTable').on('click', '#delete', function(event) {
+        $(document).ready(function() {
+            $('#jobTable form').on('submit', function(event) {
                 event.preventDefault();
-                var url = $(this).attr('href');
-                var confirmMessage = "Are you sure you want to delete?";
-
+                var confirmMessage = "Are you sure you want to delete this user?";
                 if (confirm(confirmMessage)) {
-                    window.location.href = url;
+                    this.submit();
+                } else {
+                    return false;
                 }
             });
         });
