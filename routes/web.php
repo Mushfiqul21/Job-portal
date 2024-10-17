@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\admin\DashboardController;
 use App\Http\Controllers\admin\JobDetailController;
+use App\Http\Controllers\admin\JobApplicationController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\user\JobController;
@@ -75,6 +76,8 @@ Route::middleware(['auth'])->group(function(){
         Route::get('admin/jobs',[JobDetailController::class,'index'])->name('admin.jobs');
         Route::post('admin/jobs/update/{id}', [JobDetailController::class, 'update'])->name('admin.jobs.update');
         Route::delete('admin/jobs/delete/{id}', [JobDetailController::class, 'destroy'])->name('admin.jobs.delete');
+
+        Route::get('admin/jobs/application', [JobApplicationController::class, 'index'])->name('admin.jobs.application');
 
     });
 });
