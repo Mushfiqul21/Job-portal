@@ -23,13 +23,13 @@
                         <div class="col-4">
                             <div class="card p-3">
                                 <h5>Users</h5>
-                                <p>100</p>
+                                <p>{{$users}}</p>
                             </div>
                         </div>
                         <div class="col-4">
                             <div class="card p-3">
                                 <h5>Jobs</h5>
-                                <p>40</p>
+                                <p>{{$jobs}}</p>
                             </div>
                         </div>
                         <div class="col-4">

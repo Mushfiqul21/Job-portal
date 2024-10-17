@@ -1,12 +1,13 @@
 <?php
+
+use App\Http\Controllers\admin\DashboardController;
+use App\Http\Controllers\admin\JobDetailController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\HomeController;
-use App\Http\Controllers\JobController;
-use App\Http\Controllers\ProfileController;
-use App\Http\Controllers\PasswordSettingController;
-use App\Http\Controllers\DashboardController;
-use App\Http\Controllers\UserController;
-use Illuminate\Support\Facades\Auth;
+use App\Http\Controllers\user\JobController;
+use App\Http\Controllers\user\PasswordSettingController;
+use App\Http\Controllers\user\ProfileController;
+use App\Http\Controllers\user\UserController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -67,9 +68,14 @@ Route::middleware(['auth'])->group(function(){
 
     Route::middleware('checkRole')->group(function(){
         Route::get('dashboard',[DashboardController::class,'index'])->name('dashboard');
-        Route::get('users',[UserController::class,'index'])->name('users');
-        Route::get('users/view/{id}',[UserController::class,'view'])->name('users.view');
-        Route::delete('users/delete/{id}',[UserController::class,'destroy'])->name('users.delete');
+        Route::get('admin/users',[UserController::class,'index'])->name('users');
+        Route::get('admin/users/view/{id}',[UserController::class,'view'])->name('users.view');
+        Route::delete('admin/users/delete/{id}',[UserController::class,'destroy'])->name('users.delete');
+
+        Route::get('admin/jobs',[JobDetailController::class,'index'])->name('admin.jobs');
+        Route::post('admin/jobs/update/{id}', [JobDetailController::class, 'update'])->name('admin.jobs.update');
+        Route::delete('admin/jobs/delete/{id}', [JobDetailController::class, 'destroy'])->name('admin.jobs.delete');
+
     });
 });
 
