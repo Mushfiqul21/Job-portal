@@ -77,8 +77,7 @@ Route::middleware(['auth'])->group(function(){
         Route::post('admin/jobs/update/{id}', [JobDetailController::class, 'update'])->name('admin.jobs.update');
         Route::delete('admin/jobs/delete/{id}', [JobDetailController::class, 'destroy'])->name('admin.jobs.delete');
 
-        Route::get('admin/jobs/application', [JobApplicationController::class, 'index'])->name('admin.jobs.application');
-
+        Route::get('admin/jobs/application', [JobApplicationController::class, 'index'])->name('admin.jobs.application');;
     });
 });
 
